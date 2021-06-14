@@ -41,8 +41,8 @@ export function drawShapes(
     ctx.fillStyle = shapeProp.fillColor;
     ctx.fill();
     if (selectedShape != null && selectedShape.Shape.id == shapeProp.id) {
-      ctx.setLineDash([5, 3]);
-      ctx.setLineDash([5, 3]);
+      ctx.setLineDash([5, 1]);
+      ctx.setLineDash([5, 1]);
       ctx.strokeStyle = "blue";
     } else {
       ctx.strokeStyle = "black";
@@ -81,6 +81,12 @@ export function drawShapes(
 export function drawLine(line: Line, ctx: any): void {
   ctx.moveTo(line.X1, line.Y1);
   ctx.lineTo(line.X2, line.Y2);
+}
+export function drawIncompleteShape(line: Line, ctx: any): void {
+  ctx.beginPath();
+  drawLine(line, ctx);
+  ctx.setLineDash([5, 3]);
+  ctx.stroke();
 }
 export function drawTriangle(triangle: Triangle, ctx: any): void {
   ctx.moveTo(triangle.X1, triangle.Y1);

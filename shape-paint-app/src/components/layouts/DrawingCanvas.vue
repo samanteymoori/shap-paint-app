@@ -39,7 +39,12 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import { namespace } from "vuex-class";
 import { Point } from "../../models/Point";
 import { Shape } from "../../models/Shape";
-import { drawShapes } from "./../../helpers/DrawingHelper";
+import { Line } from "../../models/Line";
+import {
+  drawIncompleteShape,
+  drawLine,
+  drawShapes
+} from "./../../helpers/DrawingHelper";
 import { recalculateBounds } from "./../../helpers/ShapeHelper";
 
 const Canvas = namespace("Canvas");
@@ -106,6 +111,44 @@ export default class DrawingCanvas extends Vue {
     ) {
       this.addShape();
       drawShapes(this.shapes, this.getDrawingContext(), this.selectedShape);
+    } else if (
+      this.currentShape &&
+      this.currentShape.id &&
+      this.currentShape.points &&
+      this.currentShape.points.length > 0 &&
+      this.currentPoint != null &&
+      this.currentPoint.x != null &&
+      this.currentPoint.y != null
+    ) {
+      drawShapes(this.shapes, this.getDrawingContext(), this.selectedShape);
+
+      if (this.currentShape.points.length > 1) {
+        const line: Line = {
+          Shape: {},
+          X1: this.currentShape.points[0].x,
+          Y1: this.currentShape.points[0].y,
+          X2: this.currentShape.points[1].x,
+          Y2: this.currentShape.points[1].y
+        };
+        drawIncompleteShape(line, this.getDrawingContext().context);
+        const line2: Line = {
+          Shape: {},
+          X1: this.currentShape.points[1].x,
+          Y1: this.currentShape.points[1].y,
+          X2: this.currentPoint.x,
+          Y2: this.currentPoint.y
+        };
+        drawIncompleteShape(line2, this.getDrawingContext().context);
+      } else {
+        const line: Line = {
+          Shape: {},
+          X1: this.currentShape.points[0].x,
+          Y1: this.currentShape.points[0].y,
+          X2: this.currentPoint.x,
+          Y2: this.currentPoint.y
+        };
+        drawIncompleteShape(line, this.getDrawingContext().context);
+      }
     }
   }
 
