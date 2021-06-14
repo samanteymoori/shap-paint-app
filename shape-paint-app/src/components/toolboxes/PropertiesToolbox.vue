@@ -53,7 +53,7 @@
           <input
             v-model="selectedShape.Shape.fillColor"
             placeholder="Fill color"
-            type="text"
+            type="color"
             class="w-full p-2 m-1 mr-2 rounded-md"
           />
         </td>
