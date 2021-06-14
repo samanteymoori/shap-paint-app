@@ -8,6 +8,27 @@
       :style="`width:${canvasWidth};height:${canvasHeight}`"
       :class="{
         'border-secondary-100': true,
+        absolute: true,
+        'z-2': true,
+        'cursor-crosshair': currentShape && currentShape.id,
+        'all-scroll': selectedShape && moveFlag
+      }"
+      @click="CanvasClick"
+      @keydown="KeyHandle"
+      @dblclick="SelectShapeToMove"
+      @mousemove="CanvasMouseMove"
+    >
+    </canvas>
+    <canvas
+      id="gridLinesCanvas"
+      :width="canvasWidth"
+      title="Double click on Canvas to move objects"
+      :height="canvasHeight"
+      :style="`width:${canvasWidth};height:${canvasHeight}`"
+      :class="{
+        absolute: true,
+        'z-1': true,
+        'border-secondary-100': true,
         'cursor-crosshair': currentShape && currentShape.id,
         'all-scroll': selectedShape && moveFlag
       }"
@@ -102,6 +123,29 @@ export default class DrawingCanvas extends Vue {
       y: evt.clientY - rect.top
     };
   }
+  mounted() {
+    var gridLineCanvas = this.getDrawingContext("gridLinesCanvas");
+    for (var i: any = 0; i < 50; i++) {
+      const line: Line = {
+        Shape: {},
+        X1: i * 100,
+        Y1: 0,
+        X2: i * 100,
+        Y2: 2000
+      };
+      drawIncompleteShape(line, gridLineCanvas.context, "#d2d2d2", 1, 2);
+    }
+    for (var i: any = 0; i < 50; i++) {
+      const line: Line = {
+        Shape: {},
+        X1: 0,
+        Y1: i * 100,
+        X2: 2000,
+        Y2: i * 100
+      };
+      drawIncompleteShape(line, gridLineCanvas.context, "#d2d2d2", 1, 2);
+    }
+  }
   updated() {
     if (
       this.currentShape &&
@@ -152,8 +196,8 @@ export default class DrawingCanvas extends Vue {
     }
   }
 
-  public getDrawingContext() {
-    var c: any = document.getElementById("myCanvas");
+  public getDrawingContext(canvasName: string = "myCanvas") {
+    var c: any = document.getElementById(canvasName);
     return { canvas: c, context: c.getContext("2d") };
   }
   public CanvasClick(evt: any) {

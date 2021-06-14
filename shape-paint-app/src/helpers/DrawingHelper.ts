@@ -82,10 +82,17 @@ export function drawLine(line: Line, ctx: any): void {
   ctx.moveTo(line.X1, line.Y1);
   ctx.lineTo(line.X2, line.Y2);
 }
-export function drawIncompleteShape(line: Line, ctx: any): void {
+export function drawIncompleteShape(
+  line: Line,
+  ctx: any,
+  color: any = "black",
+  dashNum1: number = 5,
+  dashNum2: number = 3
+): void {
   ctx.beginPath();
   drawLine(line, ctx);
-  ctx.setLineDash([5, 3]);
+  ctx.setLineDash([dashNum1, dashNum2]);
+  ctx.strokeStyle = color;
   ctx.stroke();
 }
 export function drawTriangle(triangle: Triangle, ctx: any): void {
