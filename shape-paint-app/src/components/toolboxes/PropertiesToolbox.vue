@@ -9,9 +9,13 @@
       text-center
       cursor-pointer
       border
+      absolute
+          z-10
+          right-0
       bg-gray-200
       text-secondary-100 text-base
     "
+    style="margin-top:320px;width:300px"
   >
     <table v-if="selectedShape && selectedShape.Shape" class="w-full">
       <tr>

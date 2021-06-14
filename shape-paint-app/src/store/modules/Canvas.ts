@@ -1,138 +1,140 @@
-import { Point } from '@/models/Point';
-import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
-import { Shape } from "../../models/Shape"
-import { ShapeType } from "../../models/ShapeType"
-import {createCircle,createElipsis,createLine,createRectangle,createSquare,createTriangle} from "./../../helpers/ShapeHelper"
+import { Point } from "@/models/Point";
+import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
+import { Shape } from "../../models/Shape";
+import { ShapeType } from "../../models/ShapeType";
+import {
+  createCircle,
+  createElipsis,
+  createLine,
+  createRectangle,
+  createSquare,
+  createTriangle
+} from "./../../helpers/ShapeHelper";
 @Module({ namespaced: true })
 class Canvas extends VuexModule {
   public currentShape?: Shape = {};
   public selectedShape: any = { Shape: { id: null, name: null } };
   public incremental_identity: number = 0;
-  public shapes: Array<Object> = []
+  public shapes: Array<Object> = [];
   public redrawFlag: number = 0;
   public moveFlag: boolean = false;
-  
+
   @Mutation
-  public init_shape ( shapeType: ShapeType ): void {
+  public init_shape(shapeType: ShapeType): void {
     this.incremental_identity++;
-    let point_count=null
-     switch ( +shapeType ) {
-       case ShapeType.Line:
-       case ShapeType.Circle:
-       case ShapeType.Rectangle:
-       case ShapeType.Square:
-       case ShapeType.Elipsis:
-         point_count = 2;
-         break;
-       case ShapeType.Triangle:
-         point_count = 3;
-         break;
+    let point_count = null;
+    switch (+shapeType) {
+      case ShapeType.Line:
+      case ShapeType.Circle:
+      case ShapeType.Rectangle:
+      case ShapeType.Square:
+      case ShapeType.Elipsis:
+        point_count = 2;
+        break;
+      case ShapeType.Triangle:
+        point_count = 3;
+        break;
       default:
-         point_count = 2;
-         break;
+        point_count = 2;
+        break;
     }
-    this.currentShape =  {
-      id:this.incremental_identity,
+    this.currentShape = {
+      id: this.incremental_identity,
       name: `${ShapeType[shapeType]}_${this.incremental_identity}`,
       points: [],
       type: shapeType,
       point_count: point_count,
-      fillColor: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+      fillColor: `transparent`
+    };
+  }
+  @Mutation
+  public set_point(point: Point): void {
+    if (this.currentShape && this.currentShape.points) {
+      this.currentShape.points.push(point);
     }
   }
   @Mutation
-  public set_point ( point: Point ): void{
-    if ( this.currentShape && this.currentShape.points ) {
-      this.currentShape.points.push( point );
-    }
-  }
-   @Mutation
-  public set_move_status (status:boolean): void {
+  public set_move_status(status: boolean): void {
     this.moveFlag = status;
   }
   @Mutation
-  public redraw (): void {
+  public redraw(): void {
     this.redrawFlag = Date.now();
   }
   @Mutation
-  public clear_canvas (): void{
+  public clear_canvas(): void {
     this.currentShape = {};
     this.shapes = [];
   }
   @Mutation
-  public select_shape ( shape: any ): void{
+  public select_shape(shape: any): void {
     this.selectedShape = shape;
-    
   }
   @Mutation
-  public add_shape (): void{
-     
-    if (this.currentShape!=null && this.currentShape.id!=null && this.currentShape.type!=null ) {
-       
-    let createdShape: any = null;
-      switch ( +this.currentShape.type ) {
+  public add_shape(): void {
+    if (
+      this.currentShape != null &&
+      this.currentShape.id != null &&
+      this.currentShape.type != null
+    ) {
+      let createdShape: any = null;
+      switch (+this.currentShape.type) {
         case ShapeType.Line:
-          createdShape = createLine( this.currentShape );
+          createdShape = createLine(this.currentShape);
           break;
         case ShapeType.Triangle:
-          createdShape = createTriangle( this.currentShape );
+          createdShape = createTriangle(this.currentShape);
           break;
         case ShapeType.Circle:
-          createdShape = createCircle( this.currentShape );
+          createdShape = createCircle(this.currentShape);
           break;
         case ShapeType.Rectangle:
-          createdShape = createRectangle( this.currentShape );
+          createdShape = createRectangle(this.currentShape);
           break;
         case ShapeType.Square:
-          createdShape = createSquare( this.currentShape );
+          createdShape = createSquare(this.currentShape);
           break;
         case ShapeType.Elipsis:
-          createdShape = createElipsis( this.currentShape );
+          createdShape = createElipsis(this.currentShape);
           break;
         default:
           break;
       }
-      if(createdShape)
-        this.shapes.push( createdShape );
+      if (createdShape) this.shapes.push(createdShape);
       this.currentShape = {};
     }
   }
 
   @Action
-  public clearCanvas (): void {
-     this.context.commit( 'clear_canvas' )
-     this.context.commit( 'redraw' )
-     
+  public clearCanvas(): void {
+    this.context.commit("clear_canvas");
+    this.context.commit("redraw");
   }
   @Action
-  public setNewShape ( shapeType: ShapeType ): void {
-    this.context.commit('init_shape', shapeType)
+  public setNewShape(shapeType: ShapeType): void {
+    this.context.commit("init_shape", shapeType);
   }
   @Action
-  public redrawShapes (): void {
-    this.context.commit('redraw')
+  public redrawShapes(): void {
+    this.context.commit("redraw");
   }
   @Action
-  public selectShape ( shape: any ): void {
-    
-    this.context.commit('select_shape',shape)
-    
+  public selectShape(shape: any): void {
+    this.context.commit("select_shape", shape);
   }
   @Action
-  public setMoveStatus ( status: Boolean ): void {
-    this.context.commit( 'set_move_status', status )
+  public setMoveStatus(status: Boolean): void {
+    this.context.commit("set_move_status", status);
   }
   @Action
-  public addShape (): void {
-    this.context.commit( 'add_shape' )
-    this.context.commit( 'redraw' )
-    
+  public addShape(): void {
+    this.context.commit("add_shape");
+    this.context.commit("redraw");
   }
   @Action
   public setPoint(point: Point): void {
-    this.context.commit( 'set_point', point )
-    this.context.commit( 'redraw' )
-    
+    this.context.commit("set_point", point);
+    this.context.commit("redraw");
   }
 }
-export default Canvas
+export default Canvas;

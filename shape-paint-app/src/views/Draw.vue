@@ -1,8 +1,8 @@
 <template>
   <div class="w-full">
     <div class="grid grid-cols-12 w-full">
-      <div class="col-span-9"><DrawingCanvas></DrawingCanvas></div>
-      <div class="col-span-3">
+      <div class="col-span-10"><DrawingCanvas></DrawingCanvas></div>
+      <div class="col-span-2">
         <DrawingToolbox></DrawingToolbox>
         <PropertiesToolbox></PropertiesToolbox>
       </div>

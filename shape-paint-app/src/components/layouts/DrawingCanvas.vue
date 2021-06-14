@@ -5,13 +5,14 @@
       :width="canvasWidth"
       title="Double click on Canvas to move objects"
       :height="canvasHeight"
-      style="border: 1px solid #4b5c64; width: 100%; height: 90vh"
+      :style="`width:${canvasWidth};height:${canvasHeight}`"
       :class="{
         'border-secondary-100': true,
         'cursor-crosshair': currentShape && currentShape.id,
-        'all-scroll': selectedShape && moveFlag,
+        'all-scroll': selectedShape && moveFlag
       }"
       @click="CanvasClick"
+      @keydown="KeyHandle"
       @dblclick="SelectShapeToMove"
       @mousemove="CanvasMouseMove"
     >
@@ -73,10 +74,10 @@ export default class DrawingCanvas extends Vue {
   public selectShape!: (shape: any) => void;
 
   get canvasWidth() {
-    return window.innerWidth - window.innerWidth / 3;
+    return window.innerWidth - 5;
   }
   get canvasHeight() {
-    return window.innerHeight;
+    return window.innerHeight - 25;
   }
   @Watch("redrawFlag")
   onPropertyChanged() {
@@ -85,6 +86,16 @@ export default class DrawingCanvas extends Vue {
   @Watch("selectedShape", { immediate: true, deep: true })
   selectedShapeChanged() {
     this.redrawShapes();
+  }
+  public KeyHandle(args: any) {
+    debugger;
+  }
+  getMousePos(canvas: any, evt: any) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+    };
   }
   updated() {
     if (
@@ -102,10 +113,11 @@ export default class DrawingCanvas extends Vue {
     var c: any = document.getElementById("myCanvas");
     return { canvas: c, context: c.getContext("2d") };
   }
-  public CanvasClick(args: any) {
+  public CanvasClick(evt: any) {
+    var rect = this.getDrawingContext().canvas.getBoundingClientRect();
     this.clickedPoint = {
-      x: args.clientX,
-      y: args.clientY
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
     };
     this.setPoint(this.clickedPoint);
   }
@@ -136,17 +148,23 @@ export default class DrawingCanvas extends Vue {
       this.setMoveStatus(!this.moveFlag);
     }
   }
-  public CanvasMouseMove(args: any) {
+  public CanvasMouseMove(evt: any) {
+    var rect = this.getDrawingContext().canvas.getBoundingClientRect();
     this.currentPoint = {
-      x: args.clientX,
-      y: args.clientY
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
     };
-    if (this.moveFlag) {
-      const diffX = args.clientX - this.selectedShape.X1;
-      const diffY = args.clientY - this.selectedShape.Y1;
+    if (
+      this.moveFlag &&
+      this.currentPoint != null &&
+      this.currentPoint.x != null &&
+      this.currentPoint.y != null
+    ) {
+      const diffX = this.currentPoint.x - this.selectedShape.X1;
+      const diffY = this.currentPoint.y - this.selectedShape.Y1;
 
-      this.selectedShape.X1 = args.clientX;
-      this.selectedShape.Y1 = args.clientY;
+      this.selectedShape.X1 = this.currentPoint.x;
+      this.selectedShape.Y1 = this.currentPoint.y;
       if (this.selectedShape.X2) {
         this.selectedShape.X2 += diffX;
       }
@@ -164,4 +182,3 @@ export default class DrawingCanvas extends Vue {
   }
 }
 </script>
-

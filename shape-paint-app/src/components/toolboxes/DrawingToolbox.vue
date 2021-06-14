@@ -11,10 +11,14 @@
           rounded-md
           text-center
           cursor-pointer
+          absolute
+          z-10
           border
+          right-0
           bg-gray-200
           text-secondary-100 text-base
         "
+        style="width:300px"
       >
         <button
           class="border p-1"

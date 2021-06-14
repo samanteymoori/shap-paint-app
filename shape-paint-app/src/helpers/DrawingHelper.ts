@@ -69,7 +69,12 @@ export function drawShapes(
     //     },
     //     ctx
     //   );
-
+    // ctx.font = "15px Arial";
+    // ctx.fillText(
+    //   `${shapeProp.LowerBoundX},${shapeProp.LowerBoundY},${shapeProp.UpperBoundX},${shapeProp.UpperBoundY}`,
+    //   shapeProp.LowerBoundX,
+    //   shapeProp.LowerBoundY
+    // );
     // ctx.stroke();
   });
 }
