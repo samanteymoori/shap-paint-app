@@ -133,7 +133,12 @@ export function drawRectangle(rectangle: Rectangle, ctx: any): void {
   ctx.rect(rectangle.X1, rectangle.Y1, rectangle.Width, rectangle.Height);
 }
 export function drawSquare(square: Square, ctx: any): void {
-  ctx.rect(square.X1, square.Y1, square.Length, square.Length);
+  ctx.rect(
+    square.X1,
+    square.Y1,
+    square.PositiveWidth ? square.Length : -1 * square.Length,
+    square.PositiveHeight ? square.Length : -1 * square.Length
+  );
 }
 export function drawElipsis(elipsis: Elipsis, ctx: any): void {
   ctx.ellipse(

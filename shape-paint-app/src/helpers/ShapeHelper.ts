@@ -151,11 +151,14 @@ export function calculateBoundRectangle(rectangle: Rectangle): void {
 export function createSquare(shape: Shape): any {
   if (shape.points?.length == 2) {
     const measures = getPointMeasures(shape.points[0], shape.points[1]);
+    console.log(measures);
     const square: Square = {
       Shape: shape,
       X1: measures.X1,
       Y1: measures.Y1,
-      Length: measures.LargerLength
+      Length: measures.LargerLength,
+      PositiveWidth: measures.Width > 0,
+      PositiveHeight: measures.Height > 0
     };
     calculateBoundSquare(square);
     return square;
@@ -164,13 +167,29 @@ export function createSquare(shape: Shape): any {
 }
 
 export function calculateBoundSquare(square: Square): void {
-  square.Shape.LowerBoundX = Math.min(square.X1, square.X1 + square.Length);
+  square.Shape.LowerBoundX = Math.min(
+    square.X1,
+    square.PositiveWidth ? square.X1 + square.Length : square.X1 - square.Length
+  );
 
-  square.Shape.UpperBoundX = Math.max(square.X1, square.X1 + square.Length);
+  square.Shape.UpperBoundX = Math.max(
+    square.X1,
+    square.PositiveWidth ? square.X1 + square.Length : square.X1 - square.Length
+  );
 
-  square.Shape.LowerBoundY = Math.min(square.Y1, square.Y1 + square.Length);
+  square.Shape.LowerBoundY = Math.min(
+    square.Y1,
+    square.PositiveHeight
+      ? square.Y1 + square.Length
+      : square.Y1 - square.Length
+  );
 
-  square.Shape.UpperBoundY = Math.max(square.Y1, square.Y1 + square.Length);
+  square.Shape.UpperBoundY = Math.max(
+    square.Y1,
+    square.PositiveHeight
+      ? square.Y1 + square.Length
+      : square.Y1 - square.Length
+  );
 }
 export function createCircle(shape: Shape): any {
   if (shape.points?.length == 2) {
