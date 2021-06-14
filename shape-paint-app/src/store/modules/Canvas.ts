@@ -2,14 +2,7 @@ import { Point } from "@/models/Point";
 import { VuexModule, Module, Mutation, Action } from "vuex-module-decorators";
 import { Shape } from "../../models/Shape";
 import { ShapeType } from "../../models/ShapeType";
-import {
-  createCircle,
-  createElipsis,
-  createLine,
-  createRectangle,
-  createSquare,
-  createTriangle
-} from "./../../helpers/ShapeHelper";
+import { createShape } from "./../../helpers/ShapeHelper";
 @Module({ namespaced: true })
 class Canvas extends VuexModule {
   public currentShape?: Shape = {};
@@ -72,37 +65,9 @@ class Canvas extends VuexModule {
   }
   @Mutation
   public add_shape(): void {
-    if (
-      this.currentShape != null &&
-      this.currentShape.id != null &&
-      this.currentShape.type != null
-    ) {
-      let createdShape: any = null;
-      switch (+this.currentShape.type) {
-        case ShapeType.Line:
-          createdShape = createLine(this.currentShape);
-          break;
-        case ShapeType.Triangle:
-          createdShape = createTriangle(this.currentShape);
-          break;
-        case ShapeType.Circle:
-          createdShape = createCircle(this.currentShape);
-          break;
-        case ShapeType.Rectangle:
-          createdShape = createRectangle(this.currentShape);
-          break;
-        case ShapeType.Square:
-          createdShape = createSquare(this.currentShape);
-          break;
-        case ShapeType.Elipsis:
-          createdShape = createElipsis(this.currentShape);
-          break;
-        default:
-          break;
-      }
-      if (createdShape) this.shapes.push(createdShape);
-      this.currentShape = {};
-    }
+    const createdShape: any = createShape(this.currentShape);
+    if (createdShape) this.shapes.push(createdShape);
+    this.currentShape = {};
   }
 
   @Action

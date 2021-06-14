@@ -280,6 +280,6 @@ export default class PropertiesToolbox extends Vue {
 </script>
 <style scoped>
 td {
-  padding: 10px;
+  padding: 5px;
 }
 </style>

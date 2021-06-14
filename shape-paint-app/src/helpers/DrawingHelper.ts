@@ -19,25 +19,8 @@ export function drawShapes(
     var shapeProp: Shape = shape.Shape as Shape;
     recalculateBounds(shape);
     ctx.beginPath();
-    if (shapeProp.type == ShapeType.Line) {
-      const line: Line = shape as Line;
-      drawLine(line, ctx);
-    } else if (shapeProp.type == ShapeType.Triangle) {
-      const triangle: Triangle = shape as Triangle;
-      drawTriangle(triangle, ctx);
-    } else if (shapeProp.type == ShapeType.Circle) {
-      const circle: Circle = shape as Circle;
-      drawCircle(circle, ctx);
-    } else if (shapeProp.type == ShapeType.Rectangle) {
-      const rectangle: Rectangle = shape as Rectangle;
-      drawRectangle(rectangle, ctx);
-    } else if (shapeProp.type == ShapeType.Square) {
-      const square: Square = shape as Square;
-      drawSquare(square, ctx);
-    } else if (shapeProp.type == ShapeType.Elipsis) {
-      const elipsis: Elipsis = shape as Elipsis;
-      drawElipsis(elipsis, ctx);
-    }
+    drawGenericShape(shapeProp, shape, ctx);
+
     ctx.fillStyle = shapeProp.fillColor;
     ctx.fill();
     if (selectedShape != null && selectedShape.Shape.id == shapeProp.id) {
@@ -77,6 +60,41 @@ export function drawShapes(
     // );
     // ctx.stroke();
   });
+}
+export function drawGenericShape(shapeProp: Shape, shape: any, ctx: any) {
+  if (shapeProp.type == ShapeType.Line) {
+    const line: Line = shape as Line;
+    drawLine(line, ctx);
+  } else if (shapeProp.type == ShapeType.Triangle) {
+    const triangle: Triangle = shape as Triangle;
+    drawTriangle(triangle, ctx);
+  } else if (shapeProp.type == ShapeType.Circle) {
+    const circle: Circle = shape as Circle;
+    drawCircle(circle, ctx);
+  } else if (shapeProp.type == ShapeType.Rectangle) {
+    const rectangle: Rectangle = shape as Rectangle;
+    drawRectangle(rectangle, ctx);
+  } else if (shapeProp.type == ShapeType.Square) {
+    const square: Square = shape as Square;
+    drawSquare(square, ctx);
+  } else if (shapeProp.type == ShapeType.Elipsis) {
+    const elipsis: Elipsis = shape as Elipsis;
+    drawElipsis(elipsis, ctx);
+  }
+}
+export function drawTemporaryShape(
+  shape: any,
+  ctx: any,
+  color: any = "black",
+  dashNum1: number = 5,
+  dashNum2: number = 3
+) {
+  var shapeProp: Shape = shape.Shape as Shape;
+  ctx.beginPath();
+  drawGenericShape(shapeProp, shape, ctx);
+  ctx.setLineDash([dashNum1, dashNum2]);
+  ctx.strokeStyle = color;
+  ctx.stroke();
 }
 export function drawLine(line: Line, ctx: any): void {
   ctx.moveTo(line.X1, line.Y1);

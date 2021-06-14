@@ -55,6 +55,35 @@ export function createLine(shape: Shape): any {
   }
   return null;
 }
+
+export function createShape(shape: any) {
+  let createdShape: any = null;
+  if (shape != null && shape.id != null && shape.type != null) {
+    switch (+shape.type) {
+      case ShapeType.Line:
+        createdShape = createLine(shape);
+        break;
+      case ShapeType.Triangle:
+        createdShape = createTriangle(shape);
+        break;
+      case ShapeType.Circle:
+        createdShape = createCircle(shape);
+        break;
+      case ShapeType.Rectangle:
+        createdShape = createRectangle(shape);
+        break;
+      case ShapeType.Square:
+        createdShape = createSquare(shape);
+        break;
+      case ShapeType.Elipsis:
+        createdShape = createElipsis(shape);
+        break;
+      default:
+        break;
+    }
+    return createdShape;
+  }
+}
 export function recalculateBounds(shape: any) {
   var shapeProp: Shape = shape.Shape as Shape;
   if (shapeProp.type == ShapeType.Line) {

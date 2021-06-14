@@ -64,9 +64,10 @@ import { Line } from "../../models/Line";
 import {
   drawIncompleteShape,
   drawLine,
-  drawShapes
+  drawShapes,
+  drawTemporaryShape
 } from "./../../helpers/DrawingHelper";
-import { recalculateBounds } from "./../../helpers/ShapeHelper";
+import { createShape, recalculateBounds } from "./../../helpers/ShapeHelper";
 
 const Canvas = namespace("Canvas");
 
@@ -192,6 +193,13 @@ export default class DrawingCanvas extends Vue {
           Y2: this.currentPoint.y
         };
         drawIncompleteShape(line, this.getDrawingContext().context);
+        var copiedShape = JSON.parse(JSON.stringify(this.currentShape));
+        copiedShape.points.push(this.currentPoint);
+
+        drawTemporaryShape(
+          createShape(copiedShape),
+          this.getDrawingContext().context
+        );
       }
     }
   }
