@@ -60,7 +60,7 @@
         </td>
         <td>
           <input
-            v-model="selectedShape.X1"
+            v-model.number="selectedShape.X1"
             placeholder="X1"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -73,7 +73,7 @@
         </td>
         <td>
           <input
-            v-model="selectedShape.Y1"
+            v-model.number="selectedShape.Y1"
             placeholder="Y1"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -86,7 +86,7 @@
         </td>
         <td>
           <input
-            v-model="selectedShape.X2"
+            v-model.number="selectedShape.X2"
             placeholder="X2"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -99,7 +99,7 @@
         </td>
         <td>
           <input
-            v-model="selectedShape.Y2"
+            v-model.number="selectedShape.Y2"
             placeholder="Y2"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -112,7 +112,7 @@
         </td>
         <td>
           <input
-            v-model="selectedShape.X3"
+            v-model.number="selectedShape.X3"
             placeholder="X3"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -125,7 +125,7 @@
         </td>
         <td>
           <input
-            v-model="selectedShape.Y3"
+            v-model.number="selectedShape.Y3"
             placeholder="Y3"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -136,7 +136,7 @@
         <td><label class="">Radius</label></td>
         <td>
           <input
-            v-model="selectedShape.Radius"
+            v-model.number="selectedShape.Radius"
             placeholder="Radius"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -147,7 +147,7 @@
         <td><label class="">Width</label></td>
         <td>
           <input
-            v-model="selectedShape.Width"
+            v-model.number="selectedShape.Width"
             placeholder="Width"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -158,7 +158,7 @@
         <td><label class="">Height</label></td>
         <td>
           <input
-            v-model="selectedShape.Height"
+            v-model.number="selectedShape.Height"
             placeholder="Height"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -169,7 +169,7 @@
         <td><label class="">Length</label></td>
         <td>
           <input
-            v-model="selectedShape.Length"
+            v-model.number="selectedShape.Length"
             placeholder="Length"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -180,7 +180,7 @@
         <td><label class="">RadiusX</label></td>
         <td>
           <input
-            v-model="selectedShape.RadiusX"
+            v-model.number="selectedShape.RadiusX"
             placeholder="RadiusX"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -191,7 +191,7 @@
         <td><label class="">RadiusY</label></td>
         <td>
           <input
-            v-model="selectedShape.RadiusY"
+            v-model.number="selectedShape.RadiusY"
             placeholder="RadiusY"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -202,7 +202,7 @@
         <td><label class="">Rotation</label></td>
         <td>
           <input
-            v-model="selectedShape.Rotation"
+            v-model.number="selectedShape.Rotation"
             placeholder="Rotation"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -213,7 +213,7 @@
         <td><label class="">Start angle</label></td>
         <td>
           <input
-            v-model="selectedShape.StartAngle"
+            v-model.number="selectedShape.StartAngle"
             placeholder="Start Angle"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -224,7 +224,7 @@
         <td><label class="">End angle</label></td>
         <td>
           <input
-            v-model="selectedShape.EndAngle"
+            v-model.number="selectedShape.EndAngle"
             placeholder="End Angle"
             type="text"
             class="w-full p-2 m-1 mr-2 rounded-md"
@@ -237,7 +237,6 @@
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 
-import { recalculateBounds } from "./../../helpers/ShapeHelper";
 import { namespace } from "vuex-class";
 const Canvas = namespace("Canvas");
 @Component
